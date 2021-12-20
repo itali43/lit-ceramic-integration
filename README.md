@@ -16,3 +16,4 @@ TODO :)
 - Allow for testnet for web3?
 - Allow Swap to Ceramic's mainnet
 - clean up/swap around deSym/deZip etc in logic
+- eth chain is hard coded

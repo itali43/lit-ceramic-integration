@@ -1,8 +1,19 @@
 // Don't forget to rebuild
 import { createIDX } from "./idx";
-import { tothemachine, _encryptWithLit } from "./lit";
+import {
+  tothemachine,
+  _encryptWithLit,
+  _decryptWithLit,
+  decodeb64,
+  encodeb64
+} from "./lit";
 import { _startLitClient } from "./client";
-import { _authenticateCeramic, _createCeramic, _writeCeramic } from "./ceramic";
+import {
+  _authenticateCeramic,
+  _createCeramic,
+  _writeCeramic,
+  _readCeramic
+} from "./ceramic";
 
 declare global {
   interface Window {
@@ -41,43 +52,37 @@ export class Integration {
   }
 
   readAndDecrypt(streamID: String): String {
-    // authenticateCeramic(ceramicPromise)
-    // .then((authReturn) => {
-    //   if (streamID === '') {
-    //     console.log(streamID)
-    //     updateAlert('danger', `Error, please write to ceramic first so a stream can be read`)
-    //   } else {
-    //     return readCeramic(authReturn, streamID)
-    //   }
-    // })
-    // .then(function (response) {
-    //   updateAlert('success', `Successful Read of Stream: ${JSON.stringify(response)}`)
+    _authenticateCeramic(this.ceramicPromise)
+      .then(authReturn => {
+        if (streamID === "") {
+          console.log(streamID);
+          return "error";
+          // updateAlert('danger', `Error, please write to ceramic first so a stream can be read`)
+        } else {
+          return _readCeramic(authReturn, streamID);
+        }
+      })
+      .then(function(response) {
+        const jason = JSON.stringify(response);
+        const enZip = response["encryptedZip"];
+        const deZip = decodeb64(enZip);
 
-    //   const jason = JSON.stringify(response)
-    //   // @ts-ignore
-    //   document.getElementById('stream').innerText = jason
-    //   const enZip = response['encryptedZip']
-    //   // decoded, not decrypted.. yet
-    //   const deZip = decodeb64(enZip)
+        const enSym = response["symKey"];
+        const deSym = decodeb64(enSym);
 
-    //   const enSym = response['symKey']
-    //   const deSym = decodeb64(enSym)
+        const accessControlConditions = response["accessControlConditions"];
+        const chain = response["chain"];
 
-    //   const accessControlConditions = response['accessControlConditions']
-    //   const chain = response['chain']
+        return _decryptWithLit(deZip, deSym, accessControlConditions, chain);
+      })
+      .then(function(response) {
+        return response.toString();
+      })
+      .then(itIsDecrypted => {
+        console.log("itIsDecrypted", itIsDecrypted);
+        return itIsDecrypted;
+      });
 
-    //   return decryptWithLit(deZip, deSym, accessControlConditions, chain)
-    // })
-    // .then(function (response) {
-    //   // @ts-ignore
-    //   document.getElementById('decryption').innerText = response.toString()
-    //   updateAlert('success', `Successfully Decrypted`)
-    //   return response.toString()
-    // })
-    // .then((itIsDecrypted) => {
-    //   console.log('itIsDecrypted', itIsDecrypted)
-    // })
-
-    return "hi";
+    // return "hi";
   }
 }

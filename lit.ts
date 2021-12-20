@@ -82,7 +82,7 @@ export async function _encryptWithLit(
   });
 
   const encryptedZipBase64 = await blobToBase64(encryptedZip);
-  console.log("--cleanup of module when it is time, right below--");
+  // console.log("--cleanup of module when it is time, right below--");
   const encryptedSymmetricKeyBase64 = encodeb64(encryptedSymmetricKey);
 
   return [
@@ -100,7 +100,7 @@ export async function _encryptWithLit(
  * @returns {Promise<string>} promise with the decrypted string
  */
 
-export async function decryptWithLit(
+export async function _decryptWithLit(
   encryptedZip: Uint8Array,
   encryptedSymmKey: Uint8Array,
   accessControlConditions: Array<any>,

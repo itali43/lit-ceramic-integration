@@ -78,7 +78,7 @@ export async function _writeCeramic(auth: any[], toBeWritten: any[]): Promise<St
     return 'error'
   }
 }
-
+// for testing: kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au
 export async function _readCeramic(auth: any[], streamId: String): Promise<string> {
   if (auth) {
     const ceramic = auth[1]

@@ -44,7 +44,7 @@ export class Integration {
   }
 
   // Retrieves a stream and decrypts message then returns to user
-  readAndDecrypt(streamID: String): String {
+  readAndDecrypt(streamID: String): any {
     // makes certain DID/wallet has been auth'ed
     _authenticateCeramic(this.ceramicPromise)
       .then(authReturn => {
@@ -59,7 +59,7 @@ export class Integration {
       })
       .then(function(response) {
         // data is encoded in base64, decode
-        const jason = JSON.stringify(response);
+        // const jason = JSON.stringify(response);
         // @ts-ignore
         const enZip = response["encryptedZip"];
         const deZip = decodeb64(enZip);
@@ -75,11 +75,11 @@ export class Integration {
 
         // decrypt decoded data
         return _decryptWithLit(deZip, deSym, accessControlConditions, chain);
-      })
-      .then(function(response) {
-        // return a string of retrieved, decrypted data
-        return response.toString();
       });
+    // .then(response => {
+    //   // return a string of retrieved, decrypted data
+    //   return response;
+    // });
 
     // return "hi";
   }

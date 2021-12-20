@@ -8,7 +8,13 @@
 
 TODO :)
 
+### How to develop in your local environment
+
+this helped: https://flaviocopes.com/npm-local-package/
+
 ### Notes
+
+- Important to restart parcel in the project you're using this module with when you are editing locally, otherwise it won't update.
 
 ### To Do / Desired Future Features
 

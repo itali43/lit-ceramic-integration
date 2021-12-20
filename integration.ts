@@ -21,22 +21,20 @@ declare global {
   }
 }
 export class Integration {
-  constructor(private idx: Idx) {}
-
-  welcome(named: string): string {
-    return tothemachine(named);
-  }
+  constructor() {}
 
   startLitClient(window: Window) {
     _startLitClient(window);
   }
 
-  //   encodeToB64(uintarray: any) {
-  //     const b64 = Buffer.from(uintarray).toString("base64");
-  //     return b64;
-  //   }
   ceramicPromise = _createCeramic();
 
+  /**
+   * This function encodes into base 64.
+   * it's useful for storing symkeys and files in ceramic
+   * @param {Uint8Array} input a file or any data
+   * @returns {string} returns a string of b64
+   */
   encryptAndWrite(thisSecret: String): String {
     _authenticateCeramic(this.ceramicPromise).then((authReturn: any) => {
       // get secret that is to be encrypted

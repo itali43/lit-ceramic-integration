@@ -1,27 +1,21 @@
-// export default class LitCeramicIntegration {
-
-//     function encodeForMe(uintarray: any) {
-//      console.log("NODE: to b64");
-//      const b64 = Buffer.from(uintarray).toString("base64");
-//      return b64;
-//    }
-//    }
-// export default const teeny = "I am a teeny tiny win";
+// Don't forget to rebuild
+import { createIDX } from "./idx";
+import { tothemachine } from "./lit";
+import { _startLitClient } from "./client";
 
 export class Integration {
-  value: number;
+  constructor(private idx: Idx) {}
 
-  constructor(n: number) {
-    this.value = n;
+  welcome(named: string): string {
+    return tothemachine(named);
   }
 
-  encodeToB64(uintarray: any) {
-    const b64 = Buffer.from(uintarray).toString("base64");
-    return b64;
+  startLitClient(window: Window) {
+    _startLitClient(window);
   }
 
-  hi(): String {
-    const b64 = "buff buff buff buff buff buff buff";
-    return b64;
-  }
+  //   encodeToB64(uintarray: any) {
+  //     const b64 = Buffer.from(uintarray).toString("base64");
+  //     return b64;
+  //   }
 }

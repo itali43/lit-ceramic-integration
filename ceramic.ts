@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-export async function createCeramic(): Promise<CeramicApi> {
+export async function _createCeramic(): Promise<CeramicApi> {
   const ceramic = new Ceramic('https://ceramic-clay.3boxlabs.com')
   console.log('creating... creating...')
   window.ceramic = ceramic
@@ -27,7 +27,7 @@ export async function createCeramic(): Promise<CeramicApi> {
   return Promise.resolve(ceramic as CeramicApi)
 }
 
-export async function authenticateCeramic(
+export async function _authenticateCeramic(
   ceramicPromise: Promise<CeramicApi>
 ): Promise<Array<any>> {
   console.log('authenticate Ceramic!@')
@@ -59,7 +59,7 @@ export async function authenticateCeramic(
  * @param {any[]} array of encrypted key, symkey, accessControlConditions, and chain
  * @returns {Promise<string>} promise with the ceramic streamID, can be used to look up data
  */
-export async function writeCeramic(auth: any[], toBeWritten: any[]): Promise<String> {
+export async function _writeCeramic(auth: any[], toBeWritten: any[]): Promise<String> {
   if (auth) {
     const ceramic = auth[1]
     const toStore = {
@@ -79,7 +79,7 @@ export async function writeCeramic(auth: any[], toBeWritten: any[]): Promise<Str
   }
 }
 
-export async function readCeramic(auth: any[], streamId: String): Promise<string> {
+export async function _readCeramic(auth: any[], streamId: String): Promise<string> {
   if (auth) {
     const ceramic = auth[1]
     const stream = await ceramic.loadStream(streamId)

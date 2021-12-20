@@ -29,19 +29,13 @@ export class Integration {
 
   ceramicPromise = _createCeramic();
 
-  /**
-   * This function encodes into base 64.
-   * it's useful for storing symkeys and files in ceramic
-   * @param {Uint8Array} input a file or any data
-   * @returns {string} returns a string of b64
-   */
+  // Makes Encryption and Writing Accessible to module user
   encryptAndWrite(thisSecret: String): String {
+    // makes certain DID/wallet has been auth'ed
     _authenticateCeramic(this.ceramicPromise).then((authReturn: any) => {
-      // get secret that is to be encrypted
+      // encrypt secret using lit
       _encryptWithLit(authReturn, thisSecret).then((zipAndSymKeyN64: any) => {
-        //   updateAlert("success", `Successfully Encrypted`);
-
-        // write encoded data to ceramic
+        // write encoded + encrypted data to ceramic
         _writeCeramic(authReturn, zipAndSymKeyN64).then((response: any) => {
           return response.toString();
         });
@@ -49,36 +43,42 @@ export class Integration {
     });
   }
 
+  // Retrieves a stream and decrypts message then returns to user
   readAndDecrypt(streamID: String): String {
+    // makes certain DID/wallet has been auth'ed
     _authenticateCeramic(this.ceramicPromise)
       .then(authReturn => {
+        // make sure streamID has been chosen
         if (streamID === "") {
           console.log(streamID);
           return "error";
-          // updateAlert('danger', `Error, please write to ceramic first so a stream can be read`)
         } else {
+          // read data and retrieve encrypted data
           return _readCeramic(authReturn, streamID);
         }
       })
       .then(function(response) {
+        // data is encoded in base64, decode
         const jason = JSON.stringify(response);
+        // @ts-ignore
         const enZip = response["encryptedZip"];
         const deZip = decodeb64(enZip);
 
+        // @ts-ignore
         const enSym = response["symKey"];
         const deSym = decodeb64(enSym);
 
+        // @ts-ignore
         const accessControlConditions = response["accessControlConditions"];
+        // @ts-ignore
         const chain = response["chain"];
 
+        // decrypt decoded data
         return _decryptWithLit(deZip, deSym, accessControlConditions, chain);
       })
       .then(function(response) {
+        // return a string of retrieved, decrypted data
         return response.toString();
-      })
-      .then(itIsDecrypted => {
-        console.log("itIsDecrypted", itIsDecrypted);
-        return itIsDecrypted;
       });
 
     // return "hi";

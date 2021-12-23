@@ -9,6 +9,7 @@ import { createIDX } from './idx'
 import { getProvider, getAddress } from './wallet'
 import { ResolverRegistry } from 'did-resolver'
 import { CeramicApi } from '@ceramicnetwork/common';
+import   {decodeb64 } from "./lit";
 
 declare global {
   interface Window {
@@ -116,3 +117,28 @@ export async function _readCeramic(auth: any[], streamId: String): Promise<strin
     return 'error'
   }
 }
+
+
+export async function _decodeFromB64(response: string) {
+
+  // data is encoded in base64, decode
+// const jason = JSON.stringify(response);
+try {
+  // @ts-ignore
+const enZip = response["encryptedZip"];
+const deZip = decodeb64(enZip);
+
+// @ts-ignore
+const enSym = response["symKey"];
+const deSym = decodeb64(enSym);
+
+// @ts-ignore
+const accessControlConditions = response["accessControlConditions"];
+// @ts-ignore
+const chain = response["chain"];
+return [deZip, deSym, accessControlConditions, chain]
+} catch (error) {
+  return "There was an error decrypting, is it possible you inputted the wrong streamID?"
+}
+
+};

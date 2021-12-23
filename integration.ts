@@ -1,18 +1,13 @@
 // Don't forget to rebuild
 import { createIDX } from "./idx";
-import {
-  tothemachine,
-  _encryptWithLit,
-  _decryptWithLit,
-  decodeb64,
-  encodeb64
-} from "./lit";
+import { _encryptWithLit, _decryptWithLit } from "./lit";
 import { _startLitClient } from "./client";
 import {
   _authenticateCeramic,
   _createCeramic,
   _writeCeramic,
-  _readCeramic
+  _readCeramic,
+  _decodeFromB64
 } from "./ceramic";
 
 declare global {
@@ -36,20 +31,7 @@ export class Integration {
    * @param {String} thisSecret what the module user wants to encrypt and store on ceramic
    * @returns {String} streamID for the encrypted data that's been stored
    */
-  encryptAndWrite(thisSecret: String): String {
-    // makes certain DID/wallet has been auth'ed
-    _authenticateCeramic(this.ceramicPromise).then((authReturn: any) => {
-      // encrypt secret using lit
-      _encryptWithLit(authReturn, thisSecret).then((zipAndSymKeyN64: any) => {
-        // write encoded + encrypted data to ceramic
-        _writeCeramic(authReturn, zipAndSymKeyN64).then((response: any) => {
-          return response.toString();
-        });
-      });
-    });
-  }
-
-  async ewAsync(thisSecret: String): Promise<String> {
+  async encryptAndWrite(thisSecret: String): Promise<String> {
     try {
       const a = await _authenticateCeramic(this.ceramicPromise);
       const en = await _encryptWithLit(a, thisSecret);
@@ -66,43 +48,19 @@ export class Integration {
    * @param {String} streamID the streamID of the encrypted data the user wants to access
    * @returns {String} unencrypted string of what was stored
    */
-  readAndDecrypt(streamID: String): any {
-    // makes certain DID/wallet has been auth'ed
-    _authenticateCeramic(this.ceramicPromise)
-      .then(authReturn => {
-        // make sure streamID has been chosen
-        if (streamID === "") {
-          console.log(streamID);
-          return "error";
-        } else {
-          // read data and retrieve encrypted data
-          return _readCeramic(authReturn, streamID);
-        }
-      })
-      .then(function(response) {
-        // data is encoded in base64, decode
-        // const jason = JSON.stringify(response);
-        // @ts-ignore
-        const enZip = response["encryptedZip"];
-        const deZip = decodeb64(enZip);
-
-        // @ts-ignore
-        const enSym = response["symKey"];
-        const deSym = decodeb64(enSym);
-
-        // @ts-ignore
-        const accessControlConditions = response["accessControlConditions"];
-        // @ts-ignore
-        const chain = response["chain"];
-
-        // decrypt decoded data
-        return _decryptWithLit(deZip, deSym, accessControlConditions, chain);
-      });
-    // .then(response => {
-    //   // return a string of retrieved, decrypted data
-    //   return response;
-    // });
-
-    // return "hi";
+  async readAndDecrypt(streamID: String): Promise<any> {
+    try {
+      // makes certain DID/wallet has been auth'ed
+      const a = await _authenticateCeramic(this.ceramicPromise);
+      // read data and retrieve encrypted data
+      const en = await _readCeramic(a, streamID);
+      // decode data returned from ceramic
+      const deco = await _decodeFromB64(en);
+      // decrypt data that's been decoded
+      const decrypt = await _decryptWithLit(deco[0], deco[1], deco[2], deco[3]);
+      return decrypt;
+    } catch (error) {
+      return `something went wrong decrypting: ${error} \n StreamID sent: ${streamID}`;
+    }
   }
 }

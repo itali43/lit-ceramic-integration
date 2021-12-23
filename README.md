@@ -28,15 +28,15 @@ this helped: https://flaviocopes.com/npm-local-package/
 
 #### Testing Ceramic Read Function
 
-If you'd like ping the ceramic test net for a streamID that already works, use the following streamID: `kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au`
+If you'd like ping the ceramic test net for a streamID that already works, use the following streamID: `kjzl6cwe1jw14afliaj4m2vku3uy67ulyxj0erv5jgqz6k6cw0vtz27mf76m4ww`
 
-Manually, you can start the `ceramic daemon` and then in another terminal window enter `ceramic show kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au`
+Manually, you can start the `ceramic daemon` and then in another terminal window enter `ceramic show kjzl6cwe1jw14afliaj4m2vku3uy67ulyxj0erv5jgqz6k6cw0vtz27mf76m4ww`
 It should return the following:
 
 {
 "chain": "ethereum",
-"symKey": "KKS1WYYvPwn7KnT/2ANE9ISptHB/l/YAojqfOwciNmSkLvAeug8rU1vYEYwscJ0JuyaKPYnQIKhWGXKgWMOCQfSd7wF5abDYIvPReFasOLpmeBW6Y7y35Qqm9wUCmcG0yvza4khakl3+Jfiy5RVBoNX2uBJQ4TTDyCKbjAjfq0gAAAAAAAAAIA61NVwyAWfXZ7wCwpl1aAOx1ruiaVej29rf+qd07vyJfk0zK6L97jvRCxH5m6tYiQ==",
-"encryptedZip": "MWUCsoLQ4mYFcmY/8w/Xo3Ce63ZEDuK+R1P9187uZaFW6F8O/PuaY42CJSSeXCgMziyz/12KS+44tkrJ3l1p7nL+vFHzz6ZmcmT6ZIhoOhkTytOvtreeRcv6zHVo6fYxKj3FvyRELoA8n79GiOXi5uBUA/Oy61m4OgIR5GHxXyaj5m7mNScZTVJrH+aCRv5EXfpGDz1KC2obVF+Ou6ddAw==",
+"symKey": "gvKsVkBRS7d+baui7nJgf3b/G+8df1KNEYhVZ6kF97H8I0NROsKPd7BXds4jWbMK+rqlDa3Y2st4XQIHLqXLZVWJn5EZLNsYgEuZZPFaNbw7CGswjdSeMUK6WF8vAXS1+LbYrbal3GbTA+1JZ7Rc/xCKmpqM2Dvz2Btj8dhY3AUAAAAAAAAAIKnDOtW9nceKILkczbD1YjUyC3on3kTXKSJNyq2y4dmxy42BUuU6z+iI4WWZ2wmUhg==",
+"encryptedZip": "rAf1RDm7nf4STWdhPS4gYWrlNHS9HcAUO/w0E86xcEC5zdLIF0TlGKVqeCowGNKtB8ecz/zxFp/8Ra+js4WOwK/yATFi5AxoCu2s5653rDZr9AjIQ8ii4pKeeRm+qEnL3bzXtmJT+5XiixTz5zgxhGgOccYMdDeOjJUKf6okOFBwVLCrUHyPd4MdbE+SLA8/hnUh7EnTLykF+3GJnD0cyQ==",
 "accessControlConditions": [
 {
 "chain": "ethereum",

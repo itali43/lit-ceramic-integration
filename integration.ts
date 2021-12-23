@@ -49,6 +49,17 @@ export class Integration {
     });
   }
 
+  async ewAsync(thisSecret: String): Promise<String> {
+    try {
+      const a = await _authenticateCeramic(this.ceramicPromise);
+      const en = await _encryptWithLit(a, thisSecret);
+      const wr = await _writeCeramic(a, en);
+      return wr;
+    } catch (error) {
+      return `something went wrong encrypting: ${error}`;
+    }
+  }
+
   /**
    * Retrieves a stream and decrypts message then returns to user
    *

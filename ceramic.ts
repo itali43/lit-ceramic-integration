@@ -118,7 +118,14 @@ export async function _readCeramic(auth: any[], streamId: String): Promise<strin
   }
 }
 
-
+/**
+ * Decode info from base64.  Data is stored in base64 to make upload to ceramic 
+ * more seamless.  This function decodes it so it can be decrypted with Lit in
+ * the next step in the read and decrypt process
+ * 
+ * @param {string} response response received from ceramic streamID
+ * @returns {Promise<Array<any>} array of decrypted zip and symmetric key + AAC and chain
+ */
 export async function _decodeFromB64(response: string) {
 
   // data is encoded in base64, decode

@@ -11,6 +11,9 @@
     "package",
     "litelliott"
   ],
+  "scripts": {
+    "build:docs": "documentation build integration.ts --parse-extension ts -f md -o documentation/integration --shallow && documentation build lit.ts --parse-extension ts -f md -o documentation/lit --shallow && documentation build ceramic.ts --parse-extension ts -f md -o documentation/ceramic --shallow && documentation build client.ts --parse-extension ts -f md -o documentation/client --shallow"
+  },
   "dependencies": {
     "@3id/connect": "^0.1.6",
     "@ceramicnetwork/3id-did-resolver": "^1.2.7",

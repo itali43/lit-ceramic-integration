@@ -1,7 +1,6 @@
 // import LitJsSdk from 'lit-js-sdk'
 import * as LitJsSdk from "lit-js-sdk";
 import { toString as uint8ArrayToString } from "uint8arrays/to-string";
-import { getAddress } from "./wallet";
 
 /**
  * This function encodes into base 64.
@@ -14,10 +13,12 @@ export function encodeb64(uintarray: any) {
   return b64;
 }
 
-export function tothemachine(name: string) {
-  return `Welcome to the Machine, ${name}`;
-}
-
+/**
+ * This function converts blobs to base 64.
+ * for easier storage in ceramic
+ * @param {Blob} blob what you'd like to encode
+ * @returns {Promise<String>} returns a string of b64
+ */
 function blobToBase64(blob: Blob) {
   return new Promise((resolve, _) => {
     const reader = new FileReader();
@@ -60,6 +61,7 @@ export async function _encryptWithLit(
     aStringThatYouWishToEncrypt
   );
 
+  // currently only the maker of the streamID/data has access to it thereafter
   const accessControlConditions = [
     {
       contractAddress: auth[2],
@@ -82,7 +84,6 @@ export async function _encryptWithLit(
   });
 
   const encryptedZipBase64 = await blobToBase64(encryptedZip);
-  // console.log("--cleanup of module when it is time, right below--");
   const encryptedSymmetricKeyBase64 = encodeb64(encryptedSymmetricKey);
 
   return [
@@ -94,9 +95,10 @@ export async function _encryptWithLit(
 }
 
 /**
- * decrypt using the lit protocol
- * @param {any} auth is the authentication passed via the persons wallet
- * @param {Promise<String>} promise with the encrypted files and symmetric key
+ * decrypt encrypted zip and symmetric key using the lit protocol
+ * @param {Uint8Array} encryptedZip encrypted data that will be converted into a string
+ * @param {Uint8Array} encryptedSymmKey symmetric key
+ * @param {Uint8Array} accessControlConditions conditions that determine access
  * @returns {Promise<string>} promise with the decrypted string
  */
 

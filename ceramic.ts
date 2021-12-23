@@ -8,6 +8,7 @@ import KeyDidResolver from 'key-did-resolver'
 import { createIDX } from './idx'
 import { getProvider, getAddress } from './wallet'
 import { ResolverRegistry } from 'did-resolver'
+import { CeramicApi } from '@ceramicnetwork/common';
 
 declare global {
   interface Window {
@@ -16,21 +17,36 @@ declare global {
   }
 }
 
+/**
+ * Authenticate for Lit + Ceramic.  
+ * Creates a CeramicApi object on the ceramic testnet
+ * 
+ * @returns {Promise<CeramicApi>} ceramicPromise pass in _createCeramic() promise
+ */
 export async function _createCeramic(): Promise<CeramicApi> {
   const ceramic = new Ceramic('https://ceramic-clay.3boxlabs.com')
-  console.log('creating... creating...')
   window.ceramic = ceramic
-  console.log(window.ceramic)
   window.TileDocument = TileDocument
   window.Caip10Link = Caip10Link
 
   return Promise.resolve(ceramic as CeramicApi)
 }
 
+/**
+ * Authenticate for Lit + Ceramic.  
+ * This uses a wallet provider to interact with the user's wallet
+ * Once the user has authorized, the address is retrieved and the 
+ * decentralized identity is created.  An IDX is also created for 
+ * convenience.
+ * 
+ * @param {Promise<CeramicApi>} ceramicPromise pass in _createCeramic() promise
+ * @returns {Promise<Array<any>>} Promise of ceramic IDX ID, ceramic object 
+ * and user's ETH Address
+ */
 export async function _authenticateCeramic(
   ceramicPromise: Promise<CeramicApi>
 ): Promise<Array<any>> {
-  console.log('authenticate Ceramic!@')
+  console.log('authenticate Ceramic!')
 
   const provider = await getProvider()
   const [ceramic, address] = await Promise.all([ceramicPromise, getAddress()])
@@ -78,7 +94,18 @@ export async function _writeCeramic(auth: any[], toBeWritten: any[]): Promise<St
     return 'error'
   }
 }
-// for testing: kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au
+
+/**
+ * Write to Ceramic.  This function takes in an auth and what one would
+ * like written and then sends it to a ceramic node in the proper format
+ * 
+ * for testing this function and understanding ceramic's read functionality better
+ * see our README, Test Data section.  Also the Ceramic docs on Read Functionality!
+ * 
+ * @param {any[]} auth is the authentication passed via the user's wallet
+ * @param {String} streamId ID hash of the stream
+ * @returns {Promise<string>} promise with the ceramic streamID's output
+ */
 export async function _readCeramic(auth: any[], streamId: String): Promise<string> {
   if (auth) {
     const ceramic = auth[1]

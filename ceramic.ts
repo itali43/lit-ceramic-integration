@@ -8,7 +8,6 @@ import KeyDidResolver from 'key-did-resolver'
 import { createIDX } from './idx'
 import { getProvider, getAddress } from './wallet'
 import { ResolverRegistry } from 'did-resolver'
-import { CeramicApi } from '@ceramicnetwork/common';
 import   {decodeb64 } from "./lit";
 
 declare global {

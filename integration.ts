@@ -29,7 +29,13 @@ export class Integration {
 
   ceramicPromise = _createCeramic();
 
-  // Makes Encryption and Writing Accessible to module user
+  /**
+   * Encrypts using Lit and then writes using Ceramic
+   * whatever the module user inputs (as long as it is a string for now)
+   *
+   * @param {String} thisSecret what the module user wants to encrypt and store on ceramic
+   * @returns {String} streamID for the encrypted data that's been stored
+   */
   encryptAndWrite(thisSecret: String): String {
     // makes certain DID/wallet has been auth'ed
     _authenticateCeramic(this.ceramicPromise).then((authReturn: any) => {
@@ -43,7 +49,12 @@ export class Integration {
     });
   }
 
-  // Retrieves a stream and decrypts message then returns to user
+  /**
+   * Retrieves a stream and decrypts message then returns to user
+   *
+   * @param {String} streamID the streamID of the encrypted data the user wants to access
+   * @returns {String} unencrypted string of what was stored
+   */
   readAndDecrypt(streamID: String): any {
     // makes certain DID/wallet has been auth'ed
     _authenticateCeramic(this.ceramicPromise)

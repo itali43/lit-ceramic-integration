@@ -109,7 +109,7 @@ export async function _decryptWithLit(
   chain: string
 ): Promise<String> {
   let authSig = await LitJsSdk.checkAndSignAuthMessage({
-    chain: "ethereum"
+    chain: chain
   });
   // encrypted blob, sym key
   console.log("encryptedSymKey", encryptedSymmKey);

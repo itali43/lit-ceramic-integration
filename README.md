@@ -19,10 +19,7 @@ this helped: https://flaviocopes.com/npm-local-package/
 ### To Do / Desired Future Features
 
 - Change infuraID in ./wallet's `web3Modal`.
-- Allow for testnet for web3?
-- Allow Swap to Ceramic's mainnet
-- clean up/swap around deSym/deZip etc in logic
-- eth chain is hard coded
+- Enable Swap to Ceramic's mainnet
 
 ### Test Data
 

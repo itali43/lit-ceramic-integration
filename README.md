@@ -6,7 +6,40 @@
 
 ### How to Implement
 
-TODO :)
+1. Install as show above
+   NOTE: an example of this implementation can be found in the lit-ceramic web playground we built to accompany the release of this module.
+2. import into your TS/JS where you'd like to use it. This is a typescript package as an FYI.
+
+`import { Integration } from '@litelliott/lit-ceramic-integration'`
+
+Javascript requires minor amounts of extra work to use a Typescript project, [here's an example](https://www.freecodecamp.org/news/how-to-add-typescript-to-a-javascript-project/) of what that can look like, but there are plenty of good resources for this online.
+
+3. Create a new Integration that runs upon startup and is accessible where you intend to do encryptAndWrite or readAndDecrypt operations:
+   `let litCeramicIntegration = new Integration()`
+4. Start the Lit Client when the DOM is loaded, or early on in the lifecycle:
+   `litCeramicIntegration.startLitClient(window)`
+5. Here is what an encryptAndWrite operation looks like:
+
+```
+  const stringToEncrypt = 'This is what we want to encrypt on Lit and then store on ceramic'
+  const response = litCeramicIntegration
+    .encryptAndWrite(stringToEncrypt)
+    .then((value) => updateStreamID(value))
+```
+
+Note that the stringToEncrypt is the thing which we are encrypting in this example. and the `updateStreamID` function is a bespoke (not in the integration module) function that takes the value that the promise produces and shows it in the HTML, so that the user can know what their streamID is (and therefore how they can access their encrypted and stored secret). You can do anything with the value variable, it will give back the stored value's streamID.
+
+6. Here is what a readAndDecrypt operation looks like:
+
+```
+    const streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au'
+    const response = litCeramicIntegration.readAndDecrypt(streamID).then(
+      (value) =>
+        console.log(value)
+    )
+```
+
+This uses an example streamID and prints the secret value to the console.
 
 ### How to develop in your local environment
 

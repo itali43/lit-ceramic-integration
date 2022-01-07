@@ -7,8 +7,7 @@
 ## Usage
 
 1. Install as shown above
-   NOTE: an example of this implementation can be found in the lit-ceramic web playground we built to accompany the release of this module.
-2. import into your TS/JS where you'd like to use it. This is a typescript package as an FYI.
+2. Import into your TS/JS where you'd like to use it. This is a typescript package as an FYI.
 
 `import { Integration } from 'lit-ceramic-integration'`
 

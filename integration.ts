@@ -33,7 +33,7 @@ export class Integration {
    *
    * @param {String} toEncrypt what the module user wants to encrypt and store on ceramic
    * @param {Array<Object>} accessControlConditions the access control conditions that govern who is able to decrypt this data.  See the docs here for examples: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples
-   * @returns {String} streamID for the encrypted data that's been stored
+   * @returns {Promise<String>} A promise that resolves to a streamID for the encrypted data that's been stored
    */
   async encryptAndWrite(
     toEncrypt: String,
@@ -53,7 +53,7 @@ export class Integration {
    * Retrieves a stream and decrypts message then returns to user
    *
    * @param {String} streamID the streamID of the encrypted data the user wants to access
-   * @returns {String} unencrypted string of what was stored
+   * @returns {Promise<String>} A promise that resolves to the unencrypted string of what was stored
    */
   async readAndDecrypt(streamID: String): Promise<any> {
     try {

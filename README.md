@@ -6,8 +6,6 @@
 
 ## Usage
 
-The following are steps to implement. In addition, we also have a wonderful folder called 'documentation' in the root directory of this repo that has markdown files with explanations of all the important methods.
-
 1. Install as shown above
    NOTE: an example of this implementation can be found in the lit-ceramic web playground we built to accompany the release of this module.
 2. import into your TS/JS where you'd like to use it. This is a typescript package as an FYI.

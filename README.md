@@ -2,7 +2,7 @@
 
 ## Installation
 
-`yarn add @litelliott/lit-ceramic-integration`
+`yarn add lit-ceramic-integration`
 
 ## Usage
 

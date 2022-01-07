@@ -14,7 +14,8 @@ whatever the module user inputs (as long as it is a string for now)
 
 ### Parameters
 
-*   `thisSecret` **[String][5]** what the module user wants to encrypt and store on ceramic
+*   `toEncrypt` **[String][5]** what the module user wants to encrypt and store on ceramic
+*   `accessControlConditions` **[Array][6]<[Object][7]>** the access control conditions that govern who is able to decrypt this data.  See the docs here for examples: [https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples][8]
 
 Returns **[String][5]** streamID for the encrypted data that's been stored
 
@@ -37,3 +38,9 @@ Returns **[String][5]** unencrypted string of what was stored
 [4]: #parameters-1
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[8]: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples

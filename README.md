@@ -1,37 +1,59 @@
 # Lit Ceramic Integration Module
 
-### Installation
+## Installation
 
 `yarn add @litelliott/lit-ceramic-integration`
 
-### How to Implement
+## Usage
 
 The following are steps to implement. In addition, we also have a wonderful folder called 'documentation' in the root directory of this repo that has markdown files with explanations of all the important methods.
 
-1. Install as show above
+1. Install as shown above
    NOTE: an example of this implementation can be found in the lit-ceramic web playground we built to accompany the release of this module.
 2. import into your TS/JS where you'd like to use it. This is a typescript package as an FYI.
 
-`import { Integration } from '@litelliott/lit-ceramic-integration'`
+`import { Integration } from 'lit-ceramic-integration'`
 
 Javascript requires minor amounts of extra work to use a Typescript project, [here's an example](https://www.freecodecamp.org/news/how-to-add-typescript-to-a-javascript-project/) of what that can look like, but there are plenty of good resources for this online.
 
 3. Create a new Integration that runs upon startup and is accessible where you intend to do encryptAndWrite or readAndDecrypt operations:
-   `let litCeramicIntegration = new Integration()`
+   `let litCeramicIntegration = new Integration("https://ceramic-clay.3boxlabs.com")`
 4. Start the Lit Client when the DOM is loaded, or early on in the lifecycle:
    `litCeramicIntegration.startLitClient(window)`
-5. Here is what an encryptAndWrite operation looks like:
+5. You'll need to define access control conditions for your data. This will govern who is able to decrypt and therefore read the data. The access control conditions variable should be an array of conditions and the user must satisify all of them (a boolean "AND" operation) to access the data. You can find examples of conditions here: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples
+
+For example, this access control condition lets anyone who holds an NFT in the collection at 0x319ba3aab86e04a37053e984bd411b2c63bf229e on Ethereum to decrypt and read the data:
 
 ```
-  const stringToEncrypt = 'This is what we want to encrypt on Lit and then store on ceramic'
-  const response = litCeramicIntegration
-    .encryptAndWrite(stringToEncrypt)
-    .then((value) => updateStreamID(value))
+const accessControlConditions = [
+  {
+    contractAddress: '0x319ba3aab86e04a37053e984bd411b2c63bf229e',
+    standardContractType: 'ERC721',
+    chain,
+    method: 'balanceOf',
+    parameters: [
+      ':userAddress'
+    ],
+    returnValueTest: {
+      comparator: '>',
+      value: '0'
+    }
+  }
+]
 ```
 
-Note that the stringToEncrypt is the thing which we are encrypting in this example. and the `updateStreamID` function is a bespoke (not in the integration module) function that takes the value that the promise produces and shows it in the HTML, so that the user can know what their streamID is (and therefore how they can access their encrypted and stored secret). You can do anything with the value variable, it will give back the stored value's streamID.
+6. Use encryptAndWrite to encrypt and write your data to Ceramic:
 
-6. Here is what a readAndDecrypt operation looks like:
+```
+const stringToEncrypt = 'This is what we want to encrypt on Lit and then store on ceramic'
+const response = litCeramicIntegration
+   .encryptAndWrite(stringToEncrypt, accessControlConditions)
+   .then((streamID) => console.log(streamID))
+```
+
+Note that the stringToEncrypt is the thing which we are encrypting in this example, which could be any string (including JSON). The encryptAndWrite function returns a promise that contains the ceramic streamID of the content that was written. Note that you do need to save the streamID somewhere in order to retrieve the data later on. You could use localStorage or a database, but you'll need to save the streamID somewhere.
+
+7. Use readAndDecrypt to read your data from ceramic and automatically decrypt it:
 
 ```
     const streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au'
@@ -43,13 +65,9 @@ Note that the stringToEncrypt is the thing which we are encrypting in this examp
 
 This uses an example streamID and prints the secret value to the console.
 
-### How to develop in your local environment
+## API Docs
 
-this helped: https://flaviocopes.com/npm-local-package/
-
-### Notes
-
-- Important to restart parcel in the project you're using this module with when you are editing locally, otherwise it won't update.
+You can find API docs [here](documentation/integration.md)
 
 ### To Do / Desired Future Features
 

@@ -96,11 +96,7 @@ export async function _writeCeramic(auth: any[], toBeWritten: any[]): Promise<St
 }
 
 /**
- * Write to Ceramic.  This function takes in an auth and what one would
- * like written and then sends it to a ceramic node in the proper format
- * 
- * for testing this function and understanding ceramic's read functionality better
- * see our README, Test Data section.  Also the Ceramic docs on Read Functionality!
+ * Read to Ceramic.  This function takes in an auth and the streamID of the desired data and then sends it to a ceramic node in the proper format getting back a promised string of whatever was stored
  * 
  * @param {any[]} auth is the authentication passed via the user's wallet
  * @param {String} streamId ID hash of the stream
